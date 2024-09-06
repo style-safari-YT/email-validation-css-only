@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --clr-gradient: radial-gradient(
+    circle at 0% 0%,
+    #373b52,
+    #252736 51%,
+    #1d1e26
+  );
+
+  --clr-base-bg: #59638931;
+  --clr-base-fg: #bfd2ff;
+  --clr-base-accent: #828db5;
+
+  --clr-invalid-bg: #ff7f7f1b;
+  --clr-invalid-fg: #ffdfdf;
+  --clr-invalid-accent: #ff7f7f;
+
+  --clr-valid-bg: #7fffd41b;
+  --clr-valid-fg: #d2fbee;
+  --clr-valid-accent: #7fffd4;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'Tilt Neon', sans-serif;
+  background: var(--clr-gradient);
+}
+
+.form {
+  position: relative;
+  /* Sets the element's width to 85% of its container's width, 
+   but limits it to a maximum of 350px if 85% exceeds 350px */
+  width: min(85%, 350px);
+  display: flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  background-color: var(--clr-base-bg);
+  color: var(--clr-base-fg);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+.form__input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font: inherit;
+  color: inherit;
+}
+
+.form__input::placeholder {
+  color: var(--clr-base-accent);
+}
+
+.form__indicator {
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  bottom: 0;
+  background-color: var(--clr-base-accent);
+}
+
+.form__input:focus ~ .form__indicator {
+  background-color: var(--clr-base-fg);
+}
+
+/*
+  Style the FORM when 
+  it has { :has() } an INPUT { .form__input } 
+  with it's placeholder hidden { :not(:placeholder-shown) }
+  and also invalid { :invalid }
+*/
+.form:has(.form__input:not(:placeholder-shown):invalid) {
+  background-color: var(--clr-invalid-bg);
+  color: var(--clr-invalid-fg);
+}
+
+/*
+  Style the INDICATOR when the INPUT
+  has its placeholder hidden { :not(:placeholder-shown) }
+  and invalid { :invalid }
+*/
+.form__input:not(:placeholder-shown):invalid ~ .form__indicator {
+  background-color: var(--clr-invalid-accent);
+}
+
+.form:has(.form__input:valid) {
+  background-color: var(--clr-valid-bg);
+  color: var(--clr-valid-fg);
+}
+
+.form__input:valid ~ .form__indicator {
+  background-color: var(--clr-valid-accent);
+}
+
+/* Adding transition to all elements found within the form */
+.form > * {
+  transition: background-color 200ms ease;
+}
